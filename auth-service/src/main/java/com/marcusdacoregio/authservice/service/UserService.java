@@ -1,7 +1,7 @@
 package com.marcusdacoregio.authservice.service;
 
-import com.marcusdacoregio.authservice.domain.User;
+import com.marcusdacoregio.authservice.domain.UserEntity;
 
 public interface UserService {
-    User create(User user);
+    UserEntity create(UserEntity user);
 }

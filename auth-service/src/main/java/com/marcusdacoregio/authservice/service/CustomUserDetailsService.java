@@ -1,24 +1,29 @@
 package com.marcusdacoregio.authservice.service;
 
+import com.marcusdacoregio.authservice.domain.UserEntity;
 import com.marcusdacoregio.authservice.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AccountStatusUserDetailsChecker;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-@Service
+@Service(value = "userDetailsService")
 public class CustomUserDetailsService implements UserDetailsService {
 
-    private final UserRepository userRepository;
-
-    public CustomUserDetailsService(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
+    @Autowired
+    private UserRepository userRepository;
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("Username " + username + " not found"));
-    }
+    public UserDetails loadUserByUsername(String input) {
+        UserEntity user = userRepository.findByUsername(input);
 
+        if (user == null)
+            throw new BadCredentialsException("Bad credentials");
+
+        new AccountStatusUserDetailsChecker().check(user);
+
+        return user;
+    }
 }

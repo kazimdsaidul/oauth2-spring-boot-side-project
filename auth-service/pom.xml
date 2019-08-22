@@ -87,13 +87,22 @@
             <artifactId>activation</artifactId>
             <version>1.1.1</version>
         </dependency>
-
         <!-- fixed		end-->
 
-
-
-
-
+        <!-- database -->
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-jpa</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+        <!-- database end -->
     </dependencies>
 
     <dependencyManagement>

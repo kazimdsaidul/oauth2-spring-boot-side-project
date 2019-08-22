@@ -1,14 +1,21 @@
 package com.marcusdacoregio.authservice.repository;
 
-import com.marcusdacoregio.authservice.domain.User;
-import org.springframework.data.mongodb.repository.MongoRepository;
+import java.util.List;
+
+import javax.transaction.Transactional;
+
+import com.marcusdacoregio.authservice.domain.UserEntity;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.Optional;
+
 
 @Repository
-public interface UserRepository extends MongoRepository<User, String> {
+@Transactional
+public interface UserRepository extends JpaRepository<UserEntity, Long> {
 
-    Optional<User> findByUsername(String username);
+	UserEntity findByUsername(String username);
+
+	List<UserEntity> findByPassword(String password);
 
 }

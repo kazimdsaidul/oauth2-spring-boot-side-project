@@ -7,3 +7,11 @@ spring:
       fail-fast: true
       password: 1234
       username: user
+
+  datasource:
+      url: jdbc:mysql://localhost:3306/userservice?useSSL=false
+      username: kazi
+      password: kazi1234
+  jpa:
+    generate-ddl: true
+

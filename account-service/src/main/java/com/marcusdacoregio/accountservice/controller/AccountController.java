@@ -21,4 +21,8 @@ public class AccountController {
         return accountService.create(user);
     }
 
+    @PostMapping("/tesdt")
+    public String toString() {
+        return "sdlfkjskdfjlks";
+    }
 }

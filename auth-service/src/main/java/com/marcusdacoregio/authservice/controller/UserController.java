@@ -1,10 +1,9 @@
 package com.marcusdacoregio.authservice.controller;
 
-import com.marcusdacoregio.authservice.domain.User;
+import com.marcusdacoregio.authservice.domain.UserEntity;
 import com.marcusdacoregio.authservice.dto.UserDto;
 import com.marcusdacoregio.authservice.dto.UserRegistrationDto;
 import com.marcusdacoregio.authservice.service.UserService;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -26,23 +25,23 @@ public class UserController {
     }
 
     @PostMapping
-    @PreAuthorize("#oauth2.hasScope('server')")
+//    @PreAuthorize("#oauth2.hasScope('server')")
     public UserDto createUser(@Valid @RequestBody UserRegistrationDto userRegistration) {
-        User savedUser = userService.create(toUser(userRegistration));
+        UserEntity savedUser = userService.create(toUser(userRegistration));
         return toDto(savedUser);
     }
 
-    private UserDto toDto(User user) {
+    private UserDto toDto(UserEntity user) {
         UserDto userDto = new UserDto();
-        userDto.setId(user.getId());
-        userDto.setUsername(user.getUsername());
+//        userDto.setId(user.getId());
+        userDto.setUsername(user.getId());
         return userDto;
     }
 
-    private User toUser(UserRegistrationDto userRegistration) {
-        User user = new User();
+    private UserEntity toUser(UserRegistrationDto userRegistration) {
+        UserEntity user = new UserEntity();
         user.setUsername(userRegistration.getUsername());
-        user.setPassword(userRegistration.getPassword());
+        user.setPasssword(userRegistration.getPassword());
         return user;
     }
 

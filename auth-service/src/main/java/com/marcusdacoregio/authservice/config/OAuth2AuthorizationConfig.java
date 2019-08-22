@@ -1,8 +1,8 @@
 package com.marcusdacoregio.authservice.config;
 
-import com.marcusdacoregio.authservice.config.mongodb.MongoTokenStore;
 import com.marcusdacoregio.authservice.service.AuthClientDetailsService;
 import com.marcusdacoregio.authservice.service.CustomUserDetailsService;
+import com.marcusdacoregio.authservice.service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -15,6 +15,7 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.token.TokenStore;
+import org.springframework.security.oauth2.provider.token.store.InMemoryTokenStore;
 
 @Configuration
 @EnableAuthorizationServer
@@ -33,22 +34,28 @@ public class OAuth2AuthorizationConfig extends AuthorizationServerConfigurerAdap
     @Autowired
     private PasswordEncoder encoder;
 
+
+    @Autowired
+    private TokenStore tokenStore;
+
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
         clients.withClientDetails(authClientDetailsService);
     }
 
+
+
     @Bean
     public TokenStore tokenStore() {
-        return new MongoTokenStore();
+        return new InMemoryTokenStore();
     }
 
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
         endpoints
                 .tokenStore(tokenStore())
-                .authenticationManager(authenticationManager)
-                .userDetailsService(userDetailsService);
+                .authenticationManager(authenticationManager);
+                //.userDetailsService(userDetailsService);
     }
 
     @Override
