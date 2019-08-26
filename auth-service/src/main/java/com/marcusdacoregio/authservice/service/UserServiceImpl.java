@@ -1,28 +1,36 @@
 package com.marcusdacoregio.authservice.service;
 
-import com.marcusdacoregio.authservice.domain.UserEntity;
-import com.marcusdacoregio.authservice.repository.UserRepository;
+import com.marcusdacoregio.authservice.model.AuthUserDetail;
+import com.marcusdacoregio.authservice.model.User;
+import com.marcusdacoregio.authservice.repository.UserDetailRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
 
     private final PasswordEncoder passwordEncoder;
-    private final UserRepository userRepository;
 
-    public UserServiceImpl(PasswordEncoder passwordEncoder, UserRepository userRepository) {
+    @Autowired
+    UserDetailRepository userRepository;
+
+    public UserServiceImpl(PasswordEncoder passwordEncoder, UserDetailRepository userRepository) {
         this.passwordEncoder = passwordEncoder;
         this.userRepository = userRepository;
     }
 
     @Override
-    public UserEntity create(UserEntity user) {
-        //throwIfUsernameExists(user.getUsername());
+    public AuthUserDetail create(AuthUserDetail user) {
+        throwIfUsernameExists(user.getUsername());
 
-        String hash = passwordEncoder.encode(user.getPasssword());
-        user.setPasssword(hash);
-        user.setActivated(Boolean.TRUE); // TODO send sms or email with code for activation
+        String hash = passwordEncoder.encode(user.getPassword());
+        user.setPassword(hash);
+//        user.setAc(Boolean.TRUE); // TODO send sms or email with code for activation
 //        user.setAuthorities(new HashSet<>(Collections.singletonList(Authorities.ROLE_USER)));
 
         // TODO other routines on account creation
@@ -30,11 +38,11 @@ public class UserServiceImpl implements UserService {
         return userRepository.save(user);
     }
 
-//    private void throwIfUsernameExists(String username) {
-//        Optional<User> existingUser = userRepository.findByUsername(username);
-//        existingUser.ifPresent((user) -> {
-//            throw new IllegalArgumentException("User not available");
-//        });
-//    }
+    private void throwIfUsernameExists(String username) {
+        Optional<User> existingUser = userRepository.findByUsername(username);
+        existingUser.ifPresent((user) -> {
+            throw new IllegalArgumentException("User not available");
+        });
+    }
 
 }

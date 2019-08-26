@@ -9,9 +9,24 @@ spring:
       username: user
 
   datasource:
-      url: jdbc:mysql://localhost:3306/userservice?useSSL=false
-      username: kazi
-      password: kazi1234
+    url: jdbc:mysql://localhost:3306/authDB?createDatabaseIfNotExist=true&useSSL=false
+    username: kazi
+    password: kazi1234
+    driver-class-name: com.mysql.jdbc.Driver
+    initialization-mode: always
+    jpa:
+      hibernate:
+        naming:
+          physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+      properties:
+        hibernate:
+          show_sql: true
+          format_sql: true
+  logging:
+    level:
+      org:
+        hibernate:
+          type: trace
   jpa:
     generate-ddl: true
 

@@ -1,8 +1,8 @@
 package com.marcusdacoregio.authservice.controller;
 
-import com.marcusdacoregio.authservice.domain.UserEntity;
 import com.marcusdacoregio.authservice.dto.UserDto;
 import com.marcusdacoregio.authservice.dto.UserRegistrationDto;
+import com.marcusdacoregio.authservice.model.AuthUserDetail;
 import com.marcusdacoregio.authservice.service.UserService;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,21 +27,22 @@ public class UserController {
     @PostMapping
 //    @PreAuthorize("#oauth2.hasScope('server')")
     public UserDto createUser(@Valid @RequestBody UserRegistrationDto userRegistration) {
-        UserEntity savedUser = userService.create(toUser(userRegistration));
+        System.err.println("createUser");
+        AuthUserDetail savedUser = userService.create(toUser(userRegistration));
         return toDto(savedUser);
     }
 
-    private UserDto toDto(UserEntity user) {
+    private UserDto toDto(AuthUserDetail user) {
         UserDto userDto = new UserDto();
 //        userDto.setId(user.getId());
-        userDto.setUsername(user.getId());
+        userDto.setUsername(user.getUsername());
         return userDto;
     }
 
-    private UserEntity toUser(UserRegistrationDto userRegistration) {
-        UserEntity user = new UserEntity();
+    private AuthUserDetail toUser(UserRegistrationDto userRegistration) {
+        AuthUserDetail user = new AuthUserDetail();
         user.setUsername(userRegistration.getUsername());
-        user.setPasssword(userRegistration.getPassword());
+        user.setPassword(userRegistration.getPassword());
         return user;
     }
 
