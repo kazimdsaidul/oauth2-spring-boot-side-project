@@ -7,8 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
-import java.util.HashSet;
 import java.util.Optional;
 
 @Service
@@ -38,8 +36,12 @@ public class UserServiceImpl implements UserService {
         return userRepository.save(user);
     }
 
+    public Optional<Optional<User>> findByUsername(String username) {
+        return Optional.ofNullable(userRepository.findByUsername(username));
+    }
+
     private void throwIfUsernameExists(String username) {
-        Optional<User> existingUser = userRepository.findByUsername(username);
+        Optional<Optional<User>> existingUser = Optional.ofNullable(userRepository.findByUsername(username));
         existingUser.ifPresent((user) -> {
             throw new IllegalArgumentException("User not available");
         });

@@ -1,9 +1,14 @@
 package com.marcusdacoregio.authservice.model;
 
 import lombok.Data;
+import org.hibernate.validator.constraints.NotBlank;
+
+
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.List;
+import javax.validation.constraints.NotEmpty;
 
 @Entity
 @Table(name = "user")
@@ -27,6 +32,7 @@ public class User implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
+    @NotEmpty(message = "{User.firstName.required}")
     @Column(name = "username")
     private String username;
     @Column(name = "password")

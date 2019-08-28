@@ -16,13 +16,13 @@ public class AccountController {
         this.accountService = accountService;
     }
 
-    @PostMapping
-    public UserDto createNewAccount(@RequestBody UserRegistrationDto user) {
-        return accountService.create(user);
-    }
+//    @PostMapping
+//    public UserDto createNewAccount(@RequestBody UserRegistrationDto user) {
+//        return accountService.create(user);
+//    }
 
-    @PostMapping("/tesdt")
+    @PostMapping("/test")
     public String toString() {
-        return "sdlfkjskdfjlks";
+        return "kazi";
     }
 }

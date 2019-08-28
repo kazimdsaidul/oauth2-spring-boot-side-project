@@ -15,6 +15,11 @@ public class Permission implements Serializable {
     @Column(name = "name")
     private String name;
 
+    public Permission(Integer id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
     public Integer getId() {
         return id;
     }

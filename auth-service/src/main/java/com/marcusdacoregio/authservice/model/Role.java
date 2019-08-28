@@ -18,10 +18,19 @@ public class Role implements Serializable {
     @Column(name = "name")
     private String name;
 
+    public Role(Integer id, String name, List<Permission> permissions) {
+        this.id = id;
+        this.name = name;
+        this.permissions = permissions;
+    }
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "permission_role", joinColumns = {
             @JoinColumn(name = "role_id", referencedColumnName = "id")}, inverseJoinColumns = {
             @JoinColumn(name = "permission_id", referencedColumnName = "id")})
+
+
+
     private List<Permission> permissions;
 
 
