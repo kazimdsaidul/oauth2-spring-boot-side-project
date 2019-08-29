@@ -1,10 +1,12 @@
 package com.marcusdacoregio.authservice.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import org.hibernate.validator.constraints.NotBlank;
 
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.List;
@@ -15,6 +17,7 @@ import javax.validation.constraints.NotEmpty;
 @Data
 public class User implements Serializable {
     public User() {
+        super();
     }
 
     public User(User user) {
@@ -32,15 +35,21 @@ public class User implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    @NotEmpty(message = "{User.firstName.required}")
+    @NotEmpty(message = "{User.username.required}")
     @Column(name = "username")
     private String username;
+
+    @NotEmpty(message = "{User.password.required}")
     @Column(name = "password")
     private String password;
+
+    @NotEmpty(message = "{User.email.email}")
     @Column(name = "email")
     private String email;
+
     @Column(name = "enabled")
     private boolean enabled;
+
     @Column(name = "accountNonExpired")
     private boolean accountNonExpired;
     @Column(name = "credentialsNonExpired")
